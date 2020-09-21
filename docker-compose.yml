@@ -42,8 +42,12 @@ services:
   superset:
     build: superset
     container_name: superset
+    environment:
+      - SUPERSET_ADMIN_USERNAME=admin
+      - SUPERSET_ADMIN_PASSWORD=admin
+      - SUPERSET_PORT=8088
     ports:
-      - 8088:8080
+      - 8088:8088
     links:
       - druid:druid
   # Superset container

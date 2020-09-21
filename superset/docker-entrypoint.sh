@@ -16,7 +16,7 @@ Init Step ${1}/${STEP_CNT} [${2}] -- ${3}
 EOF
 }
 
-SUPERSET_ADMIN_USERNAME="${SUPERSET_ADMIN_USERNAME-admin}"
+SUPERSET_ADMIN_USERNAME="${SUPERSET_ADMIN_USERNAME:-admin}"
 SUPERSET_ADMIN_PASSWORD="${SUPERSET_ADMIN_PASSWORD:-admin}"
 superset fab list-users
 user_count="$(superset fab list-users | sed -n "/^username:${SUPERSET_ADMIN_USERNAME}\b/p" | wc -l)"
@@ -32,11 +32,7 @@ stderr "Updating the database."
 superset db upgrade
 superset init
 
-if test -v SUPERSET_POST_INIT; then
-    stderr "Running post-init hook ${SUPERSET_POST_INIT}."
-    bash -euo pipefail -c "${SUPERSET_POST_INIT}"
-fi
-
+SUPERSET_PORT="${SUPERSET_PORT:-8088}"
 if [ "${#}" -ne 0 ]; then
     exec "${@}"
 else
