@@ -40,8 +40,12 @@ services:
       - kafka:kafka
   # Superset container
   superset:
-    image: amancevice/superset:0.18.5
+    build: superset
     container_name: superset
+    environment:
+      - SUPERSET_ADMIN_USERNAME=admin
+      - SUPERSET_ADMIN_PASSWORD=admin
+      - SUPERSET_PORT=8088
     ports:
       - 8088:8088
     links:
